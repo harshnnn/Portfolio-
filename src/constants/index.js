@@ -205,7 +205,7 @@ const projects = [
       },
     ],
     image: carrent,
-    source_code_link: "https://github.com/",
+    source_code_link: "https://github.com/harshnnn/Gym-website",
   },
   {
     name: "Salon Booking",
@@ -226,7 +226,7 @@ const projects = [
       },
     ],
     image: jobit,
-    source_code_link: "https://github.com/",
+    source_code_link: "https://github.com/harshnnn/salon-website",
   },
   {
     name: "Geo-Sync",
@@ -247,7 +247,7 @@ const projects = [
       },
     ],
     image: tripguide,
-    source_code_link: "https://github.com/",
+    source_code_link: "https://github.com/harshnnn/GeoSync",
   },
 ];
 
