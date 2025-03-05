@@ -1,19 +1,22 @@
-import React, { Suspense } from "react";
+import React, { Suspense} from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import {  Model } from "./Globe"; // Ensure the path is correct
 
 import CanvasLoader from "../Loader";
 
 const Earth = () => {
   const earth = useGLTF("./planet/scene.gltf");
-
+  //const earth = useGLTF("models/globe.glb")
   return (
     <primitive object={earth.scene} scale={2.5} position-y={0} rotation-y={0} />
   );
 };
 
-const EarthCanvas = () => {
+const EarthCanvas = ({clicked}) => {
+  
   return (
+     
     <Canvas
       shadows
       frameloop='demand'
@@ -33,11 +36,14 @@ const EarthCanvas = () => {
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />
-        <Earth />
-
+        {/* <Earth /> */}
+        <mesh scale={2.3} position-y={0} rotation-z={3*Math.PI/2}>
+        <Model clicked={clicked}  />
+        </mesh>
         <Preload all />
       </Suspense>
     </Canvas>
+    
   );
 };
 

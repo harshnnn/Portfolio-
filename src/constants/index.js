@@ -189,7 +189,7 @@ const projects = [
   {
     name: "Gym Website",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      "Online gym platform offering users a comprehensive suite to explore various exercises, follow workout plans, track macros, and engage with an AI chatbot, an all-in-one fitness solution for health and wellness.",
     tags: [
       {
         name: "react",
@@ -210,7 +210,7 @@ const projects = [
   {
     name: "Salon Booking",
     description:
-      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
+      "Web-based platform enabling users to browse services, book salon appointments, and manage schedules, providing a seamless and efficient solution for personal grooming and beauty needs.",
     tags: [
       {
         name: "react",
@@ -231,7 +231,7 @@ const projects = [
   {
     name: "Geo-Sync",
     description:
-      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
+      "Online platform offering anonymous video chat, allowing users to connect and talk with strangers, providing a secure and exciting way to meet new people and engage in conversations.",
     tags: [
       {
         name: "nextjs",
