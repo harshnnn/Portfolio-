@@ -1,0 +1,113 @@
+import React, { useRef } from "react";
+import { fragment, vertex } from "./shader";
+import { useFrame } from "@react-three/fiber";
+import { useAspect, useTexture, Text } from "@react-three/drei";
+import useWindowScroll from "./WindowScrollHook";
+import * as THREE from "three";
+
+export default function Model({
+  texturePath,
+  initialAmplitude = 0.25,
+  initialWaveLength = 2,
+  offsetThreshold,
+  position = [0, 0, 0],
+  textContent = ""
+}) {
+  const scrollOffset = useWindowScroll();
+  const plane = useRef();
+  const texture = useTexture(texturePath);
+  const { width, height } = texture.image;
+  const initialScale = 1 / 100; // Initial small scale
+  const targetScale = 4.3; // Target scale when fully expanded
+
+  // Using simple constants instead of useControls
+  const amplitude = initialAmplitude;
+  const waveLength = initialWaveLength;
+
+  const uniforms = useRef({
+    uTexture: { value: texture },
+    uTime: { value: 0 },
+    uAmplitude: { value: amplitude },
+    uWaveLength: { value: waveLength }
+  });
+
+  useFrame(() => {
+    if (plane.current) {
+      plane.current.material.uniforms.uTime.value += 0.14;
+
+      // Smoothly interpolate to zero when scrollOffset is greater than offsetThreshold
+      const targetAmplitude = scrollOffset >= offsetThreshold ? 0 : amplitude;
+      const targetWaveLength = scrollOffset >= offsetThreshold ? 0 : waveLength;
+
+      plane.current.material.uniforms.uAmplitude.value = THREE.MathUtils.lerp(
+        plane.current.material.uniforms.uAmplitude.value,
+        targetAmplitude,
+        0.1 // Adjust the interpolation speed as needed
+      );
+
+      plane.current.material.uniforms.uWaveLength.value = THREE.MathUtils.lerp(
+        plane.current.material.uniforms.uWaveLength.value,
+        targetWaveLength,
+        0.1 // Adjust the interpolation speed as needed
+      );
+
+      // Interpolate the scale of the mesh based on scrollOffset
+      const currentScale = THREE.MathUtils.lerp(
+        initialScale,
+        targetScale,
+        scrollOffset // Assuming scrollOffset is between 0 and 1
+      );
+      plane.current.scale.set(currentScale, currentScale, currentScale);
+    }
+  });
+
+  return (
+    <mesh ref={plane} position={position}>
+      <planeGeometry args={[1, 1, 45, 45]} />
+      <shaderMaterial
+        vertexShader={vertex}
+        fragmentShader={fragment}
+        wireframe={false}
+        uniforms={uniforms.current}
+      />
+      <pointLight position={[5, -5, 5]} />
+      <Text
+        position={[0, -0.6, 0]}
+        scale={[1 / 10, 1 / 10, 1 / 10]}
+        color="white" // default
+        anchorX="center" // default
+        anchorY="top" // default
+      >
+        {textContent}
+      </Text>
+    </mesh>
+  );
+}
+
+//above is model backup
+
+//below is shader backup
+
+export const vertex = `
+    uniform float uAmplitude;
+    uniform float uWaveLength;
+    uniform float uTime;
+    varying vec2 vUv;
+    void main(){
+        vUv = uv; 
+        vec3 newPosition = position;
+        float wave = uAmplitude * sin(position.x * uWaveLength +uTime);
+        newPosition.z +=wave;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+    }
+`
+
+export const fragment = `
+    uniform sampler2D uTexture;
+    varying vec2 vUv;
+
+    void main(){
+        vec4 color = texture2D(uTexture, vUv);
+        gl_FragColor = color;
+    }
+`

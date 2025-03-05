@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -12,12 +12,15 @@
     "@emailjs/browser": "^3.10.0",
     "@react-three/drei": "^9.56.24",
     "@react-three/fiber": "^8.11.1",
+    "@react-three/rapier": "^1.4.0",
     "framer-motion": "^9.0.7",
+    "leva": "^0.9.35",
     "maath": "^0.5.2",
+    "meshline": "^3.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.1",
     "react-parallax-tilt": "^1.7.231",
+    "react-router-dom": "^6.8.1",
     "react-vertical-timeline-component": "^3.6.0",
     "three": "^0.149.0"
   },

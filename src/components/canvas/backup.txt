@@ -1,0 +1,54 @@
+import React, { Suspense, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Preload } from "@react-three/drei";
+
+import CanvasLoader from "../Loader";
+import {  Model } from "./Globe"; // Ensure the path is correct
+
+const EarthCanvas = () => {
+  const [clicked, setClicked] = useState(false);
+
+  return (
+    <div style={{ position: 'relative', width:'300px', height:'600px'} }>
+      <Canvas
+        shadows
+        frameloop='demand'
+        dpr={[10, 2]}
+        gl={{ preserveDrawingBuffer: true }}
+        camera={{
+          fov: 4,
+          near: 0.1,
+          far: 200,
+          position: [-4, 3, 6],
+        }}
+      >
+        <Suspense fallback={<CanvasLoader />}>
+          <OrbitControls
+            autoRotate
+            enableZoom={false}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={Math.PI / 2}
+          />
+          <Model clicked={clicked} />
+          <Preload all />
+        </Suspense>
+      </Canvas>
+      <button
+        style={{
+          position: 'relative',
+          top: '10px',
+          left: '10px',
+          padding: '10px',
+          background: 'lightblue',
+          border: 'none',
+          cursor: 'pointer'
+        }}
+        onClick={() => setClicked(!clicked)}
+      >
+        Toggle Animation
+      </button>
+    </div>
+  );
+};
+
+export default EarthCanvas;
